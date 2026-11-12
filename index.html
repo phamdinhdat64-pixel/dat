@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Leo Đỉnh Bàn Cờ - Peak Climber</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Bungee&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="game-wrapper">
+        <!-- Top HUD -->
+        <header class="game-header">
+            <div class="hud-left">
+                <div class="brand">
+                    <span class="game-title">ĐÈO NÚI SƠN TRÀ</span>
+                    <span class="badge-tag">CHINH PHỤC ĐỈNH BÀN CỜ (50 Ô)</span>
+                </div>
+                <div class="round-badge">
+                    <span class="label">VÒNG</span>
+                    <span class="value" id="currentRoundDisplay">1</span>
+                </div>
+            </div>
+
+            <div class="hud-center">
+                <!-- Turn Queue Pills -->
+                <div class="turn-order-container" id="turnOrderList"
+                    title="Thứ tự lượt đi trong vòng này (được tráo ngẫu nhiên mỗi vòng)">
+                    <!-- Dynamic Turn Pills -->
+                </div>
+            </div>
+
+            <div class="hud-right">
+                <button id="btnSound" class="btn-icon" title="Bật/Tắt Âm thanh (M)" aria-label="Toggle Sound">
+                    <span class="icon" id="soundIcon">🔊</span>
+                </button>
+                <button id="btnRules" class="btn-icon" title="Luật chơi" aria-label="Rules">
+                    <span class="icon">📜</span>
+                </button>
+                <button id="btnRestart" class="btn-icon" title="Ván mới" aria-label="Restart">
+                    <span class="icon">🔄</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Layout: Board + Control Sidebar -->
+        <main class="game-layout">
+            <!-- Left/Center: Canvas Board -->
+            <div class="board-container" id="boardContainer">
+                <canvas id="boardCanvas" width="900" height="600"></canvas>
+
+                <!-- Notice Banner (Thông báo tráo lượt / mốc) -->
+                <div id="gameBanner" class="game-banner hidden">
+                    <span id="bannerText">BẮT ĐẦU VÒNG 1</span>
+                </div>
+            </div>
+
+            <!-- Right/Bottom: Player Dashboard & Controls -->
+            <aside class="control-panel">
+                <!-- Active Turn Card -->
+                <div class="active-player-card" id="activePlayerCard">
+                    <div class="player-header">
+                        <span class="turn-status-label">LƯỢT ĐI HIỆN TẠI</span>
+                        <div class="player-identity">
+                            <div class="player-avatar-circle" id="activePlayerAvatar"></div>
+                            <span class="player-name" id="activePlayerName">Người chơi 1</span>
+                        </div>
+                    </div>
+
+                    <div class="player-stats-row">
+                        <div class="stat-item">
+                            <span class="stat-title">Vị trí</span>
+                            <span class="stat-number" id="activePlayerPos">0 / 50</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-title">Mốc tiếp theo</span>
+                            <span class="stat-number highlight" id="activePlayerNextMilestone">Mốc 10</span>
+                        </div>
+                    </div>
+
+                    <!-- Dice Interactive Box (Nút tung xúc xắc toàn chiều rộng) -->
+                    <div class="dice-box">
+                        <button id="btnRollDice" class="btn-roll">
+                            <span class="roll-icon">🎲</span>
+                            <span class="roll-text">TUNG XÚC XẮC</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Leaderboard / Progress of all players -->
+                <div class="players-list-panel">
+                    <h3 class="panel-subtitle">TIẾN ĐỘ NGƯỜI CHƠI</h3>
+                    <div class="player-progress-list" id="playerProgressList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Event History Log -->
+                <div class="event-log-panel">
+                    <h3 class="panel-subtitle">NHẬT KÝ VÁN ĐẤU</h3>
+                    <div class="log-content" id="logContent">
+                        <div class="log-entry">Chào mừng bạn đến với Leo Đỉnh Bàn Cờ!</div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- ==========================================================================
+             MODALS & OVERLAYS
+             ========================================================================== -->
+
+        <!-- 1. Lobby / Game Setup Modal -->
+        <div id="setupModal" class="modal-overlay active">
+            <div class="modal-card">
+                <h1 class="modal-title">LEO ĐỈNH BÀN CỜ</h1>
+                <p class="modal-desc">Đua tiến độ 50 ô, vượt mốc trắc nghiệm trí tuệ và chinh phục đỉnh cao!</p>
+
+                <div class="setup-section">
+                    <label class="section-label">Số lượng người chơi:</label>
+                    <div class="player-count-buttons" id="playerCountGroup">
+                        <button class="btn-select active" data-count="2">2 Người</button>
+                        <button class="btn-select" data-count="3">3 Người</button>
+                        <button class="btn-select" data-count="4">4 Người</button>
+                    </div>
+                </div>
+
+                <div class="setup-section">
+                    <label class="section-label">Danh sách đối thủ:</label>
+                    <div class="player-inputs" id="playerInputsContainer">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+
+                <button id="btnStartGame" class="btn-primary-action">BẮT ĐẦU VÁN ĐẤU</button>
+            </div>
+        </div>
+
+        <!-- 2. Milestone Quiz Modal (Trắc nghiệm Mốc 10, 20, 30, 40) -->
+        <div id="quizModal" class="modal-overlay hidden">
+            <div class="modal-card quiz-card">
+                <div class="quiz-header">
+                    <span class="milestone-badge" id="quizMilestoneBadge">TRẠM GÁC MỐC 10</span>
+                    <div class="timer-box">
+                        <span class="timer-icon">⏳</span>
+                        <span id="quizTimerText">15s</span>
+                    </div>
+                </div>
+                <div class="timer-progress-track">
+                    <div class="timer-progress-bar" id="quizProgressBar"></div>
+                </div>
+
+                <div class="quiz-question-box">
+                    <h2 class="question-text" id="quizQuestionText">Câu hỏi đang được tải...?</h2>
+                </div>
+
+                <div class="quiz-options-grid" id="quizOptionsGrid">
+                    <!-- 4 Options (A, B, C, D) -->
+                </div>
+
+                <div class="quiz-footer-hint">
+                    <span>* Trả lời ĐÚNG: Giữ nguyên vị trí & Qua lượt.</span>
+                    <span>* Trả lời SAI / Hết giờ: Phạt lùi lại 5 ô & Qua lượt!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Victory / Game Over Modal -->
+        <div id="victoryModal" class="modal-overlay hidden">
+            <div class="modal-card victory-card">
+                <!-- Visual Illustration: ĐỈNH BÀN CỜ SƠN TRÀ THỰC TẾ -->
+                <div class="summit-illustration">
+                    <img src="image_2.png" alt="Đỉnh Bàn Cờ - Sơn Trà" class="summit-photo" id="victorySummitImg" onerror="if(this.src.indexOf('.jpg')===-1)this.src='image_2.png.jpg'">
+                </div>
+
+                <div class="trophy-badge">🏆 CHIẾN THẮNG ĐỈNH BÀN CỜ 🏆</div>
+                <h1 class="victory-title">ĐẮC ĐẠO TIÊN ÔNG</h1>
+                <p class="victory-subtitle" id="winnerSubtitle">BKDN Tân Binh đã xuất sắc trả lời các câu hỏi về ĐH Bách khoa Đà Nẵng và chạm đỉnh 50 đầu tiên!</p>
+
+                <div class="victory-stats" id="victoryStatsContainer">
+                    <div>Vòng đấu hoàn thành: <strong>14</strong></div>
+                    <div>Tổng số lần đổ xúc xắc: <strong>14</strong></div>
+                    <div>Câu trắc nghiệm trả lời đúng: <strong>3</strong></div>
+                    <div>Vị trí chung cuộc: <strong>50 / 50</strong></div>
+                </div>
+
+                <button id="btnPlayAgain" class="btn-primary-action">CHINH PHỤC VÁN MỚI</button>
+            </div>
+        </div>
+
+        <!-- 4. Rules Guide Modal -->
+        <div id="rulesModal" class="modal-overlay hidden">
+            <div class="modal-card">
+                <h2 class="modal-title">LUẬT CHƠI CHUẨN</h2>
+                <div class="rules-body">
+                    <div class="rule-item">
+                        <strong>🎯 Mục tiêu:</strong> Ai di chuyển đến vị trí <strong>≥ 50</strong> đầu tiên sẽ chiến
+                        thắng ngay lập tức!
+                    </div>
+                    <div class="rule-item">
+                        <strong>🎲 Hệ thống Lượt:</strong> Đầu mỗi vòng (Round), thứ tự người chơi sẽ được <em>tráo ngẫu
+                            nhiên</em> để đảm bảo công bằng.
+                    </div>
+                    <div class="rule-item">
+                        <strong>🚩 Mốc Thử Thách (10, 20, 30, 40):</strong>
+                        Khi dừng trúng hoặc vượt qua mốc, bạn phải dừng lại tại ô mốc để trả lời 1 câu hỏi trắc nghiệm về <strong>Đại học Bách khoa - ĐH Đà Nẵng (DUT)</strong>.
+                        <ul>
+                            <li><strong>Đúng:</strong> Giữ nguyên vị trí và qua lượt (chuyển người tiếp theo).</li>
+                            <li><strong>Sai / Hết giờ:</strong> Bị phạt lùi lại 5 ô và qua lượt.</li>
+                            <li><em>Lưu ý: Mỗi mốc chỉ kích hoạt 1 lần duy nhất cho mỗi người chơi và câu hỏi không bao giờ bị lặp lại!</em></li>
+                        </ul>
+                    </div>
+                </div>
+                <button id="btnCloseRules" class="btn-secondary-action">ĐÃ HIỂU</button>
+            </div>
+        </div>
+
+        <!-- 5. Big 3D Dice Roll Overlay (Xúc Xắc Truyền Thống Việt Nam 120x120px) -->
+        <div id="diceOverlay" class="dice-overlay hidden" aria-modal="true" role="dialog">
+            <div class="dice-overlay-backdrop"></div>
+            <div class="dice-modal-wrapper">
+                <div class="dice-player-pill" id="dicePlayerPill">
+                    <span class="dice-player-dot" id="dicePlayerDot"></span>
+                    <span class="dice-player-name" id="dicePlayerName">Người chơi 1</span>
+                </div>
+                <div class="dice-action-title" id="diceActionTitle">Đang tung xúc xắc...</div>
+
+                <div class="dice-scene" id="diceScene">
+                    <div class="dice-bouncer" id="diceBouncer">
+                        <div class="cube" id="diceCube">
+                            <!-- Mặt 1: Front (Nhất - 1 chấm đỏ đại tâm) -->
+                            <div class="face face-1">
+                                <div class="pip-cell"></div><div class="pip-cell"></div><div class="pip-cell"></div>
+                                <div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot pip-large-1"></div></div><div class="pip-cell"></div>
+                                <div class="pip-cell"></div><div class="pip-cell"></div><div class="pip-cell"></div>
+                            </div>
+
+                            <!-- Mặt 2: Right (Nhị - 2 chấm chéo) -->
+                            <div class="face face-2">
+                                <div class="pip-cell"><div class="pip-dot"></div></div><div class="pip-cell"></div><div class="pip-cell"></div>
+                                <div class="pip-cell"></div><div class="pip-cell"></div><div class="pip-cell"></div>
+                                <div class="pip-cell"></div><div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot"></div></div>
+                            </div>
+
+                            <!-- Mặt 3: Bottom (Tam - 3 chấm đường chéo) -->
+                            <div class="face face-3">
+                                <div class="pip-cell"><div class="pip-dot"></div></div><div class="pip-cell"></div><div class="pip-cell"></div>
+                                <div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot"></div></div><div class="pip-cell"></div>
+                                <div class="pip-cell"></div><div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot"></div></div>
+                            </div>
+
+                            <!-- Mặt 4: Top (Tứ - 4 chấm đỏ to truyền thống) -->
+                            <div class="face face-4">
+                                <div class="pip-cell"><div class="pip-dot pip-large-4"></div></div><div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot pip-large-4"></div></div>
+                                <div class="pip-cell"></div><div class="pip-cell"></div><div class="pip-cell"></div>
+                                <div class="pip-cell"><div class="pip-dot pip-large-4"></div></div><div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot pip-large-4"></div></div>
+                            </div>
+
+                            <!-- Mặt 5: Left (Ngũ - 4 góc + 1 chấm giữa) -->
+                            <div class="face face-5">
+                                <div class="pip-cell"><div class="pip-dot"></div></div><div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot"></div></div>
+                                <div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot"></div></div><div class="pip-cell"></div>
+                                <div class="pip-cell"><div class="pip-dot"></div></div><div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot"></div></div>
+                            </div>
+
+                            <!-- Mặt 6: Back (Lục - 2 cột 3 hàng) -->
+                            <div class="face face-6">
+                                <div class="pip-cell"><div class="pip-dot"></div></div><div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot"></div></div>
+                                <div class="pip-cell"><div class="pip-dot"></div></div><div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot"></div></div>
+                                <div class="pip-cell"><div class="pip-dot"></div></div><div class="pip-cell"></div><div class="pip-cell"><div class="pip-dot"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dice-ground-shadow" id="diceGroundShadow"></div>
+                </div>
+
+                <div class="dice-outcome-badge hidden" id="diceOutcomeBadge">
+                    <span id="diceOutcomeText">+4 BƯỚC</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

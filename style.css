@@ -1,0 +1,1278 @@
+/* ==========================================================================
+   CSS Variables & Design System
+   ========================================================================== */
+:root {
+    /* Theme: Bầu Trời Xanh Dương & Đỉnh Sơn Trà */
+    --bg-sky-light: #38bdf8;
+    --bg-sky-mid: #0284c7;
+    --bg-sky-dark: #082f49;
+    --bg-main: #075985;
+    --bg-card: rgba(8, 26, 50, 0.92);
+    --bg-card-light: #0f3460;
+    --border-color: rgba(255, 255, 255, 0.22);
+    --border-glow: rgba(56, 189, 248, 0.4);
+
+    --color-gold: #ffd166;
+    --color-success: #10b981;
+    --color-danger: #ef476f;
+    --color-primary: #0284c7;
+    --color-accent: #ff9f1c;
+
+    /* Player Default Palette */
+    --p1-color: #ef476f;
+    /* Ruby Red */
+    --p2-color: #00f0ff;
+    /* Cyan / Neon Blue */
+    --p3-color: #10b981;
+    /* Emerald Green */
+    --p4-color: #ffd166;
+    /* Solar Gold */
+
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+    --text-muted: #94a3b8;
+
+    --font-heading: 'Bungee', cursive, sans-serif;
+    --font-body: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-retro: 'Press Start 2P', monospace;
+
+    --border-radius-sm: 8px;
+    --border-radius-md: 14px;
+    --border-radius-lg: 20px;
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.45);
+    --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.35);
+    --contrast-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.7);
+}
+
+/* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(180deg, #38bdf8 0%, #0ea5e9 25%, #0284c7 50%, #0369a1 75%, #082f49 100%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+}
+
+/* Background Atmosphere: Mây trắng & Ánh sáng bầu trời */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 90% 40% at 50% 0%, rgba(255, 255, 255, 0.28) 0%, transparent 70%),
+        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 88% 22%, rgba(255, 255, 255, 0.16) 0%, transparent 45%),
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ==========================================================================
+   Wrapper & Layout
+   ========================================================================== */
+.game-wrapper {
+    width: 100%;
+    height: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem 1rem;
+    gap: 0.6rem;
+}
+
+/* ==========================================================================
+   HUD Header
+   ========================================================================== */
+.game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-soft);
+    gap: 1rem;
+}
+
+.hud-left {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-title {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--color-gold);
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 16px rgba(255, 209, 102, 0.6);
+}
+
+.badge-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #7dd3fc;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.round-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(4, 18, 36, 0.75);
+    padding: 0.25rem 0.8rem;
+    border-radius: var(--border-radius-sm);
+    border: 1.5px solid rgba(255, 209, 102, 0.45);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.round-badge .label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #cbd5e1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.round-badge .value {
+    font-family: var(--font-retro);
+    font-size: 1.1rem;
+    color: var(--color-gold);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+/* Turn Order Pills */
+.hud-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+.turn-order-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.2rem;
+}
+
+.turn-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.75rem;
+    background: rgba(4, 18, 36, 0.82);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.turn-pill.active {
+    background: rgba(2, 132, 199, 0.9);
+    color: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 0 16px rgba(255, 209, 102, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5);
+    border-color: #ffd166;
+}
+
+.pill-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--pill-color, #fff);
+}
+
+.hud-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-icon {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-icon:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Main Layout: Board & Control Panel
+   ========================================================================== */
+.game-layout {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 0.8rem;
+    min-height: 0;
+}
+
+/* Board Canvas Container */
+.board-container {
+    position: relative;
+    background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 25%, #0284c7 65%, #075985 100%);
+    border-radius: var(--border-radius-md);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+}
+
+/* Background Hill: Dãy đồi xa phía sau */
+.board-container::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 72%;
+    clip-path: polygon(0% 100%, 0% 68%, 18% 46%, 36% 65%, 64% 38%, 84% 56%, 100% 42%, 100% 100%);
+    background: linear-gradient(to top, #022c22 0%, #064e3b 45%, #047857 85%, #059669 100%);
+    opacity: 0.72;
+    z-index: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 0 15px rgba(2, 44, 34, 0.5));
+}
+
+/* Main Pointed Hill: Ngọn đồi chóp nhọn phía sau bàn cờ */
+/* Hiệu ứng chuyển màu xanh lá từ đậm ở dưới chân đồi nhạt dần lên đỉnh đồi */
+.board-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 8%;
+    width: 84%;
+    height: 88%;
+    clip-path: polygon(50% 2%, 96% 100%, 4% 100%);
+    background: linear-gradient(to top, #022c22 0%, #064e3b 22%, #047857 45%, #059669 65%, #10b981 82%, #4ade80 93%, #86efac 100%);
+    opacity: 0.96;
+    z-index: 1;
+    pointer-events: none;
+    filter: drop-shadow(0 -5px 25px rgba(2, 44, 34, 0.6));
+}
+
+#boardCanvas {
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Announcement Banner */
+.game-banner {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(4, 18, 36, 0.94);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    padding: 0.6rem 1.8rem;
+    border-radius: 30px;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 209, 102, 0.4);
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.game-banner.hidden {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+}
+
+/* ==========================================================================
+   Control Panel & Dashboard
+   ========================================================================== */
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+/* Active Player Card */
+.active-player-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    box-shadow: var(--shadow-soft);
+    transition: border-color 0.3s;
+}
+
+.turn-status-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #7dd3fc;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.player-identity {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.2rem;
+}
+
+.player-avatar-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: var(--p1-color);
+    box-shadow: 0 0 14px currentColor, 0 2px 6px rgba(0, 0, 0, 0.6);
+    border: 2px solid #ffffff;
+}
+
+.player-name {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.player-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    background: rgba(4, 18, 36, 0.75);
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.stat-number {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.stat-number.highlight {
+    color: var(--color-gold);
+    text-shadow: 0 0 10px rgba(255, 209, 102, 0.6);
+}
+
+/* Dice Interactive Box (Nút tung xúc xắc) */
+.dice-box {
+    display: flex;
+    width: 100%;
+    margin-top: 0.2rem;
+}
+
+.btn-roll {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: linear-gradient(135deg, #ffd166 0%, #ff9f1c 100%);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    color: #0b172a;
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255, 159, 28, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.btn-roll .roll-icon {
+    font-size: 1.4rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.btn-roll:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 159, 28, 0.75);
+}
+
+.btn-roll:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.btn-roll:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   Big 3D Dice Roll Overlay (Xúc Xắc Truyền Thống Việt Nam 120x120px)
+   ========================================================================== */
+.dice-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(4, 18, 36, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 1;
+    transition: opacity 0.25s ease;
+    pointer-events: auto;
+}
+
+.dice-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none !important;
+}
+
+.dice-modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    perspective: 1000px;
+}
+
+.dice-player-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 1.2rem;
+    background: rgba(4, 18, 36, 0.88);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 25px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.dice-player-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-gold);
+    box-shadow: 0 0 10px currentColor;
+}
+
+.dice-player-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.dice-action-title {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--color-gold);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 209, 102, 0.6);
+    letter-spacing: 0.5px;
+}
+
+/* 3D Dice Scene Container (perspective: 900px, elevated angle) */
+.dice-scene {
+    position: relative;
+    width: 220px;
+    height: 190px;
+    perspective: 900px;
+    -webkit-perspective: 900px;
+    perspective-origin: 50% 28%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0 20px 0;
+}
+
+/* Bộ phận nảy tiếp đất / nhảy cao (Bouncer) */
+.dice-bouncer {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+}
+
+/* Khối Lập Phương True 3D Cube (120x120px) */
+.cube {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    background: #e8dfcf;
+    border-radius: 16px;
+    will-change: transform;
+}
+
+/* Hiệu ứng bóng tiếp đất dưới đáy khối 3D */
+.dice-ground-shadow {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%) scale(1);
+    width: 110px;
+    height: 24px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0) 75%);
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(3px);
+    opacity: 0.8;
+}
+
+/* Giao diện chung 6 Mặt Xúc Xắc (.face-1 đến .face-6) */
+.face {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(145deg, #ffffff 0%, #fdfbf7 45%, #ece3d4 100%);
+    border: 2px solid rgba(215, 204, 186, 0.95);
+    border-radius: 16px;
+    box-sizing: border-box;
+    box-shadow: 
+        inset 0 0 18px rgba(0, 0, 0, 0.08),
+        inset 0 0 0 1.5px rgba(255, 255, 255, 0.95),
+        0 2px 10px rgba(0, 0, 0, 0.12);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    padding: 12px;
+    gap: 4px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    user-select: none;
+}
+
+/* Ghép kín 6 mặt thành khối lập phương 3D vuông vức (translateZ = 60px) kèm ánh sáng đổ bóng chân thực */
+.face-1 { transform: rotateY(0deg) translateZ(60px); filter: brightness(1.02); }
+.face-2 { transform: rotateY(90deg) translateZ(60px); filter: brightness(0.95); }
+.face-3 { transform: rotateX(-90deg) translateZ(60px); filter: brightness(0.85); }
+.face-4 { transform: rotateX(90deg) translateZ(60px); filter: brightness(1.08); }
+.face-5 { transform: rotateY(-90deg) translateZ(60px); filter: brightness(0.92); }
+.face-6 { transform: rotateY(180deg) translateZ(60px); filter: brightness(0.88); }
+
+/* Các chấm tròn bên trong màu đỏ tươi truyền thống */
+.pip-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.pip-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ff4d6d 0%, #dc2626 50%, #991b1b 100%);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(153, 27, 27, 0.4);
+}
+
+/* Đặc biệt chấm số 1 (Nhất) làm TO VÀ NỔI BẬT kiểu truyền thống Việt Nam */
+.pip-dot.pip-large-1 {
+    width: 42px;
+    height: 42px;
+    background: radial-gradient(circle at 35% 35%, #ff4d6d 0%, #dc2626 55%, #850c0c 100%);
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(255, 255, 255, 0.7);
+    border: 1.5px solid rgba(133, 12, 12, 0.5);
+}
+
+/* Đặc biệt các chấm số 4 (Tứ) làm TO VÀ NỔI BẬT màu đỏ tươi truyền thống */
+.pip-dot.pip-large-4 {
+    width: 25px;
+    height: 25px;
+    background: radial-gradient(circle at 35% 35%, #ff4d6d 0%, #e11d48 55%, #881337 100%);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 1.5px 3px rgba(255, 255, 255, 0.7);
+    border: 1.2px solid rgba(136, 19, 55, 0.5);
+}
+
+/* Badge thông báo số bước xúc xắc */
+.dice-outcome-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ffd166, #ff9f1c);
+    color: #0b172a;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 800;
+    padding: 0.55rem 1.8rem;
+    border-radius: 25px;
+    box-shadow: 0 6px 20px rgba(255, 159, 28, 0.6), 0 0 25px rgba(255, 209, 102, 0.5);
+    animation: badgePopAnim 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dice-outcome-badge.hidden {
+    display: none !important;
+}
+
+@keyframes badgePopAnim {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Player Progress & Event Log */
+.players-list-panel,
+.event-log-panel {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: 0.85rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.panel-subtitle {
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: #7dd3fc;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.player-progress-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.progress-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.5rem 0.65rem;
+    background: rgba(4, 18, 36, 0.72);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.progress-card.active-player {
+    border-color: rgba(56, 189, 248, 0.5);
+    background: rgba(2, 132, 199, 0.22);
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.3);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.progress-track {
+    width: 100%;
+    height: 7px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+/* Event Log */
+.event-log-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 120px;
+}
+
+.log-content {
+    flex: 1;
+    overflow-y: auto;
+    font-size: 0.78rem;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 140px;
+}
+
+.log-entry {
+    line-height: 1.45;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+.log-entry strong {
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+/* ==========================================================================
+   Modals & Overlays
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 9, 18, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: opacity 0.25s ease;
+    padding: 1rem;
+}
+
+.modal-overlay.hidden {
+    display: none !important;
+}
+
+.modal-card {
+    background: linear-gradient(180deg, #0c233f 0%, #06162a 100%);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.25);
+    padding: 1.8rem;
+    width: 100%;
+    max-width: 460px;
+    text-align: center;
+    animation: modalPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPop {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-title {
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    color: var(--color-gold);
+    margin-bottom: 0.4rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 18px rgba(255, 209, 102, 0.5);
+}
+
+.modal-desc {
+    font-size: 0.88rem;
+    color: #e2e8f0;
+    margin-bottom: 1.4rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+/* Setup Modal Inputs */
+.setup-section {
+    text-align: left;
+    margin-bottom: 1.2rem;
+}
+
+.section-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #7dd3fc;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.player-count-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-select {
+    flex: 1;
+    padding: 0.55rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-select.active {
+    background: var(--color-primary);
+    border-color: #00f0ff;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+}
+
+.player-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.player-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.color-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.player-name-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    outline: none;
+}
+
+.bot-toggle {
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.bot-toggle.active {
+    background: #7209b7;
+    border-color: #b5179e;
+    color: #fff;
+}
+
+.btn-primary-action,
+.btn-secondary-action {
+    width: 100%;
+    padding: 0.85rem;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 0.8rem;
+    transition: all 0.2s;
+}
+
+.btn-primary-action {
+    background: linear-gradient(135deg, #ffd166, #ff9f1c);
+    border: none;
+    color: #0c101d;
+    box-shadow: 0 6px 20px rgba(255, 159, 28, 0.4);
+}
+
+.btn-primary-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 159, 28, 0.6);
+}
+
+.btn-secondary-action {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Milestone Quiz Modal
+   ========================================================================== */
+.quiz-card {
+    max-width: 540px;
+    border-color: var(--color-gold);
+    box-shadow: 0 0 35px rgba(255, 209, 102, 0.35);
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+}
+
+.milestone-badge {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--color-gold);
+    background: rgba(255, 209, 102, 0.15);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    border: 1px solid var(--color-gold);
+}
+
+.timer-box {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--font-retro);
+    font-size: 0.9rem;
+    color: var(--color-danger);
+}
+
+.timer-progress-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+}
+
+.timer-progress-bar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #06d6a0, #ffd166, #ef476f);
+    transition: width 0.1s linear;
+}
+
+.quiz-question-box {
+    margin-bottom: 1.4rem;
+    text-align: left;
+}
+
+.question-text {
+    font-size: 1.18rem;
+    font-weight: 700;
+    line-height: 1.45;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95);
+}
+
+.quiz-options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+}
+
+.quiz-option-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(4, 18, 36, 0.78);
+    border: 1.5px solid rgba(255, 255, 255, 0.22);
+    border-radius: var(--border-radius-sm);
+    color: #ffffff;
+    font-size: 0.94rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+}
+
+.quiz-option-btn:hover:not(:disabled) {
+    background: rgba(2, 132, 199, 0.35);
+    border-color: #38bdf8;
+    transform: translateX(4px);
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+}
+
+.quiz-option-btn.correct {
+    background: rgba(6, 214, 160, 0.25) !important;
+    border-color: var(--color-success) !important;
+    color: var(--color-success) !important;
+    font-weight: 700;
+}
+
+.quiz-option-btn.wrong {
+    background: rgba(239, 71, 111, 0.25) !important;
+    border-color: var(--color-danger) !important;
+    color: var(--color-danger) !important;
+    font-weight: 700;
+}
+
+.option-prefix {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.quiz-footer-hint {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.74rem;
+    color: #cbd5e1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+    text-align: left;
+}
+
+/* Victory Modal - Đỉnh Bàn Cờ Sơn Trà */
+.victory-card {
+    max-width: 520px;
+    border: 2.5px solid var(--color-gold);
+    box-shadow: 0 0 60px rgba(255, 209, 102, 0.45), inset 0 0 25px rgba(255, 209, 102, 0.15);
+    background: linear-gradient(180deg, #0e2b4f 0%, #06162a 100%);
+    padding: 1.6rem 2rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius-lg);
+}
+
+.summit-illustration {
+    position: relative;
+    width: 100%;
+    height: 195px;
+    margin-bottom: 1.1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 209, 102, 0.6);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65), 0 0 15px rgba(255, 209, 102, 0.25);
+    background: #061122;
+}
+
+.summit-photo {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center 35%;
+    border-radius: 11px;
+}
+
+.trophy-badge {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    color: #121624;
+    background: linear-gradient(90deg, #ffd166, #ff9f1c);
+    padding: 0.38rem 1.15rem;
+    border-radius: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 0.55rem;
+    box-shadow: 0 0 18px rgba(255, 209, 102, 0.55);
+}
+
+.victory-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--color-gold);
+    background: linear-gradient(135deg, #ffffff 0%, #fff3b0 35%, #ffd166 75%, #ff9f1c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(255, 209, 102, 0.6));
+    text-shadow: 0 0 25px rgba(255, 209, 102, 0.5);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.5px;
+}
+
+.victory-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #f0f4f8;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.victory-stats {
+    background: rgba(3, 11, 23, 0.6);
+    padding: 0.85rem 1.15rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid rgba(255, 209, 102, 0.25);
+    margin-bottom: 1.25rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem 1rem;
+    font-size: 0.86rem;
+    color: #cbd5e1;
+    text-align: left;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.victory-stats div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 0.3rem;
+}
+
+.victory-stats div strong {
+    color: #ffd166;
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-shadow: 0 0 6px rgba(255, 209, 102, 0.35);
+}
+
+.rules-body {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
+}
+
+.rules-body ul {
+    margin-left: 1.4rem;
+    margin-top: 0.3rem;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 960px) {
+
+    html,
+    body {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100%;
+    }
+
+    .game-wrapper {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: visible;
+        padding: 0.5rem;
+    }
+
+    .game-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        min-height: auto;
+    }
+
+    .board-container {
+        min-height: 380px;
+        aspect-ratio: 3 / 2;
+    }
+
+    .control-panel {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 0.6rem;
+        overflow-y: visible;
+    }
+
+    .event-log-panel {
+        display: none;
+        /* Giảm tải giao diện trên tablet/mobile */
+    }
+}
+
+@media (max-width: 600px) {
+    .game-wrapper {
+        padding: 0.4rem;
+    }
+
+    .game-header {
+        padding: 0.4rem 0.6rem;
+    }
+
+    .brand .game-title {
+        font-size: 0.95rem;
+    }
+
+    .control-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .board-container {
+        min-height: 320px;
+    }
+
+    .btn-roll {
+        height: 50px;
+        font-size: 0.95rem;
+    }
+}
